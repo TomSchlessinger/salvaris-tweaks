@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "salvaris-tweaks",
+	"version": "${version}",
+	"name": "Salvaris Tweaks",
+	"description": "Tweaks for the Salvaris/Hidden Isles MC Server",
+	"authors": [
+		"MyShampooIsDrunk"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/salvaris-tweaks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "myshampooisdrunk.salvaris.Salvaris"
+		]
+	},
+	"mixins": [
+		"salvaris-tweaks.mixins.json"
+	],
+	"accessWidener" : "salvaris.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.14.22",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
