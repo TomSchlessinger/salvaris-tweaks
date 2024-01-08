@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import myshampooisdrunk.salvaris.world.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -47,7 +48,16 @@ public abstract class RespawnAnchorMixin {
             }
         };
         Vec3d vec3d = explodedPos.toCenterPos();
-        WorldUtils.createExplosion(world,null, world.getDamageSources().badRespawnPoint(vec3d), explosionBehavior, vec3d, (float) (3 + level * 0.5), true, World.ExplosionSourceType.BLOCK,(float)(level)/4*0.4f);
+        //2.5 -> 5; 1 -> 3.5  2 -> 4.5, 3 -> 5.5, 4 -> 6.5; 2.5 + (n)
+        if(Config.ANCHOR_LEVEL_AFFECTS_STRENGTH.get()){
+            WorldUtils.createExplosion(world,null, world.getDamageSources().badRespawnPoint(vec3d), explosionBehavior,
+                    vec3d, (2.5f + level) * Config.ANCHOR_EXPLOSION_SIZE_MULTIPLIER.get().floatValue(), true,
+                    World.ExplosionSourceType.BLOCK,(level+1.5f)/4f * Config.ANCHOR_EXPLOSION_DAMAGE_MULTIPLIER.get().floatValue());
+        }else{
+            WorldUtils.createExplosion(world,null, world.getDamageSources().badRespawnPoint(vec3d), null,
+                    vec3d, 5f * Config.ANCHOR_EXPLOSION_SIZE_MULTIPLIER.get().floatValue(), true,
+                    World.ExplosionSourceType.BLOCK, Config.ANCHOR_EXPLOSION_SIZE_MULTIPLIER.get().floatValue());
+        }
         ci.cancel();
         world.createExplosion(null, world.getDamageSources().badRespawnPoint(vec3d), explosionBehavior, vec3d, 0f, false, World.ExplosionSourceType.BLOCK);
     }

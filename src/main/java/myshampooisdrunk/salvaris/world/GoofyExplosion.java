@@ -80,7 +80,7 @@ public class GoofyExplosion extends Explosion {
     }
 
     public GoofyExplosion(World world, @Nullable Entity entity, @Nullable DamageSource damageSource, @Nullable ExplosionBehavior behavior, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType destructionType, float multiplier) {
-        super(world,entity,damageSource,behavior,x,y,z,power,createFire,destructionType);
+        super(world,entity,damageSource,behavior,x,y,z,power,createFire,destructionType, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
         this.multiplier = multiplier;
         this.random = Random.create();
         this.affectedBlocks = new ObjectArrayList();
@@ -339,7 +339,7 @@ public class GoofyExplosion extends Explosion {
 
         for(int v = 0; v < list.size(); ++v) {
             Entity entity = list.get(v);
-            if (!entity.isImmuneToExplosion()) {
+            if (!entity.isImmuneToExplosion(this)) {
                 double w = Math.sqrt(entity.squaredDistanceTo(vec3d)) / (double)q;
                 if (w <= 1.0D) {
                     double x = entity.getX() - this.x;
@@ -350,9 +350,9 @@ public class GoofyExplosion extends Explosion {
                         x /= aa;
                         y /= aa;
                         z /= aa;
-                        double ab = (double)getExposure(vec3d, entity);
+                        double ab = getExposure(vec3d, entity);
                         double ac = (1.0D - w) * ab;
-                        entity.damage(this.getDamageSource(), (float)((int)((ac * ac + ac) / 2.0 * 7.0 * (double)q + 1.0)*multiplier));
+                        entity.damage(this.getDamageSource(), ((int)((ac * ac + ac) / 2.0 * 7.0 * (double)q + 1.0)*multiplier));
                         double ad;
                         if (entity instanceof LivingEntity livingEntity) {
                             ad = ProtectionEnchantment.transformExplosionKnockback(livingEntity, ac);

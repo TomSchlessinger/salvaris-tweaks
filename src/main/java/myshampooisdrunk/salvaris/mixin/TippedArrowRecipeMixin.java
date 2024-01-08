@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -23,19 +24,21 @@ import java.util.List;
 public class TippedArrowRecipeMixin {
     @Inject(at = @At("HEAD"), method = "craft*",cancellable = true)
     public void modifiedCraft(RecipeInputInventory recipeInputInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir){
-
-        ItemStack itemStack = recipeInputInventory.getStack(1 + recipeInputInventory.getWidth());
-        if (itemStack.isOf(Items.LINGERING_POTION)) {
-            Potion pot = PotionUtil.getPotion(itemStack);
-            if(pot == Potions.STRONG_HARMING) {
-                cir.setReturnValue(ItemStack.EMPTY);
-            } else {
-                ItemStack itemStack2 = new ItemStack(Items.TIPPED_ARROW, 8);
-                PotionUtil.setPotion(itemStack2, PotionUtil.getPotion(itemStack));
-                PotionUtil.setCustomPotionEffects(itemStack2, PotionUtil.getCustomPotionEffects(itemStack));
-                cir.setReturnValue(itemStack2);
+        if(Config.DISABLE_HARMING_ARROW.get()){
+            ItemStack itemStack = recipeInputInventory.getStack(1 + recipeInputInventory.getWidth());
+            if (itemStack.isOf(Items.LINGERING_POTION)) {
+                Potion pot = PotionUtil.getPotion(itemStack);
+                if(pot == Potions.STRONG_HARMING) {
+                    cir.setReturnValue(ItemStack.EMPTY);
+                } else {
+                    ItemStack itemStack2 = new ItemStack(Items.TIPPED_ARROW, 8);
+                    PotionUtil.setPotion(itemStack2, PotionUtil.getPotion(itemStack));
+                    PotionUtil.setCustomPotionEffects(itemStack2, PotionUtil.getCustomPotionEffects(itemStack));
+                    cir.setReturnValue(itemStack2);
+                }
             }
+            cir.cancel();
         }
-        cir.cancel();
+
     }
 }

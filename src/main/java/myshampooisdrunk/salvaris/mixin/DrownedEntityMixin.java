@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.mob.DrownedEntity;
 import net.minecraft.item.ItemStack;
@@ -18,12 +19,15 @@ abstract class DrownedEntityMixin{
             cancellable=true
     )
     protected void initEquipment(Random random, LocalDifficulty localDifficulty, CallbackInfo ci) {
-        if ((double)random.nextFloat() > 0.9) {
-            int i = random.nextInt(16);
-            if (i >= 10) {
-                ((DrownedEntity)(Object)this).equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.FISHING_ROD));
+        if(Config.DISABLE_TRIDENTS.get()){
+            if ((double)random.nextFloat() > 0.9) {
+                int i = random.nextInt(16);
+                if (i >= 10) {
+                    ((DrownedEntity)(Object)this).equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.FISHING_ROD));
+                }
             }
+            ci.cancel();
         }
-        ci.cancel();
+
     }
 }

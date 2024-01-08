@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
@@ -18,9 +19,13 @@ import java.util.stream.Collectors;
 public class TradeOffersMixin {
     @ModifyVariable(method = "create", at = @At(value = "STORE", ordinal = 0))
     private List<Potion> modifyPotionList(List<Potion> list, Entity entity, Random random) {
-        return Registries.POTION.stream().filter(
-                potion -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion) && !(potion == Potions.STRONG_HARMING)).collect(Collectors.toList()
-        );
+        if(Config.DISABLE_HARMING_ARROW.get()){
+            return Registries.POTION.stream().filter(
+                    potion -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion) && (potion != Potions.STRONG_HARMING)).collect(Collectors.toList()
+            );
+        }
+        return Registries.POTION.stream().filter(potion -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion)).collect(Collectors.toList());
+
     }
 
 }

@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -15,10 +16,17 @@ public abstract class LivingEntityMixin {
 
     @Inject(method="tryUseTotem", at = @At("HEAD"),cancellable = true)
     private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> cir){
+        if(Config.TOTEM_COOLDOWN.get().intValue() < 0){
+            cir.setReturnValue(false);
+            return;
+        }
+        else if (Config.TOTEM_COOLDOWN.get().intValue() == 0){
+            return;
+        }
         if ((LivingEntity)(Object)this instanceof ServerPlayerEntity player){
             ItemCooldownManager manager = player.getItemCooldownManager();
             if(!manager.isCoolingDown(Items.TOTEM_OF_UNDYING)){
-                manager.set(Items.TOTEM_OF_UNDYING,20 * 20);//second number is amount of seconds
+                manager.set(Items.TOTEM_OF_UNDYING,Config.TOTEM_COOLDOWN.get().intValue());//second number is amount of seconds
             } else{
                 cir.setReturnValue(false);
             }

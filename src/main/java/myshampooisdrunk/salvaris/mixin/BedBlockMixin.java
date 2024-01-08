@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import myshampooisdrunk.salvaris.world.WorldUtils;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
@@ -39,13 +40,13 @@ public abstract class BedBlockMixin {
 
             if (!isBedWorking(world)) {
                 world.removeBlock(pos, false);
-                BlockPos blockPos = pos.offset(((Direction)state.get(FACING)).getOpposite());
+                BlockPos blockPos = pos.offset((state.get(FACING)).getOpposite());
                 if (world.getBlockState(blockPos).isOf((BedBlock)(Object)this)) {
                     world.removeBlock(blockPos, false);
                 }
 
                 Vec3d vec3d = pos.toCenterPos();
-                WorldUtils.createExplosion(world,null, world.getDamageSources().badRespawnPoint(vec3d), (ExplosionBehavior)null, vec3d, 4.5f, true, World.ExplosionSourceType.BLOCK,0.5f*0.4f);
+                WorldUtils.createExplosion(world,null, world.getDamageSources().badRespawnPoint(vec3d), null, vec3d, 5f * Config.BED_EXPLOSION_SIZE_MULTIPLIER.get().floatValue(), true, World.ExplosionSourceType.BLOCK,Config.BED_EXPLOSION_DAMAGE_MULTIPLIER.get().floatValue());
                 cir.setReturnValue(ActionResult.SUCCESS);
                 world.createExplosion(null, world.getDamageSources().badRespawnPoint(vec3d), null, vec3d, 0f, false, World.ExplosionSourceType.BLOCK);
             } else if (state.get(OCCUPIED)) {

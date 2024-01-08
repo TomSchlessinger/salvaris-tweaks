@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import myshampooisdrunk.salvaris.world.WorldUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -28,8 +29,10 @@ public class EndCrystalEntityMixin {
                 if (!source.isIn(DamageTypeTags.IS_EXPLOSION)) {
                     Vec3d pos = ((EndCrystalEntity)(Object)this).getPos();
                     DamageSource damageSource = source.getAttacker() != null ? ((EndCrystalEntity)(Object)this).getDamageSources().explosion(((EndCrystalEntity)(Object)this), source.getAttacker()) : null;
-                    WorldUtils.createExplosion(((EndCrystalEntity) (Object) this).getWorld(),(EndCrystalEntity)(Object)this, damageSource, (ExplosionBehavior)null, pos, 5.75F, false, World.ExplosionSourceType.BLOCK,0.5f*0.4f);
-                    ((EndCrystalEntity) (Object) this).getWorld().createExplosion((EndCrystalEntity)(Object)this, damageSource, (ExplosionBehavior)null, pos.getX(), pos.getY(), pos.getZ(), 0F, false, World.ExplosionSourceType.BLOCK);
+                    WorldUtils.createExplosion(((EndCrystalEntity) (Object) this).getWorld(),(EndCrystalEntity)(Object)this,
+                            damageSource, null, pos, 6f * Config.CRYSTAL_EXPLOSION_SIZE_MULTIPLIER.get().floatValue(), false, World.ExplosionSourceType.BLOCK,Config.CRYSTAL_EXPLOSION_DAMAGE_MULTIPLIER.get().floatValue());
+                    ((EndCrystalEntity) (Object) this).getWorld().createExplosion((EndCrystalEntity)(Object)this, damageSource,
+                            null, pos.getX(), pos.getY(), pos.getZ(), 0F, false, World.ExplosionSourceType.BLOCK);
 
                 }
 

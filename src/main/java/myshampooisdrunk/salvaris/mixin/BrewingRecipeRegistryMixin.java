@@ -1,5 +1,6 @@
 package myshampooisdrunk.salvaris.mixin;
 
+import myshampooisdrunk.salvaris.config.Config;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potion;
@@ -17,9 +18,9 @@ public class BrewingRecipeRegistryMixin {
             argsOnly = true
     )
     private static Item modifyPotionIngredient(Item ingredient, Potion inputPotion, Item inputItem, Potion outputPotion) {
-        if (outputPotion == Potions.WEAKNESS) {
+        if (outputPotion == Potions.WEAKNESS && Config.WEAKNESS_TAKES_NETHERITE_SCRAP.get()) {
             return Items.NETHERITE_SCRAP;
-        } else if (outputPotion == Potions.STRENGTH) {
+        } else if (outputPotion == Potions.STRENGTH && Config.STRENGTH_TAKES_DIAMOND_BLOCK.get()) {
             return Items.DIAMOND_BLOCK;
         }
         return ingredient;
