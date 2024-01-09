@@ -18,6 +18,10 @@ public class BrewingRecipeRegistryMixin {
             argsOnly = true
     )
     private static Item modifyPotionIngredient(Item ingredient, Potion inputPotion, Item inputItem, Potion outputPotion) {
+        if(inputPotion == Potions.WATER && ingredient == Items.GLISTERING_MELON_SLICE && outputPotion == Potions.MUNDANE){
+            Config.builder.readValue(Config.WEAKNESS_TAKES_NETHERITE_SCRAP);
+            Config.builder.readValue(Config.STRENGTH_TAKES_DIAMOND_BLOCK);
+        }
         if (outputPotion == Potions.WEAKNESS && Config.WEAKNESS_TAKES_NETHERITE_SCRAP.get()) {
             return Items.NETHERITE_SCRAP;
         } else if (outputPotion == Potions.STRENGTH && Config.STRENGTH_TAKES_DIAMOND_BLOCK.get()) {

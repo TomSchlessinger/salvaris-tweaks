@@ -26,11 +26,11 @@ public class Salvaris implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		Config.builder.read();
+		//Config.builder.getItems().forEach(i -> LOGGER.info(i.getId() +" has the value of: " + i.get()));
 		StatusEffects.STRENGTH.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, UUID.randomUUID().toString(),
 				3D * Config.STRENGTH_EFFECT_MULTIPLIER.get().doubleValue(), EntityAttributeModifier.Operation.ADDITION);
 		StatusEffects.WEAKNESS.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, UUID.randomUUID().toString(),
 			-4D * Config.WEAKNESS_EFFECT_MULTIPLIER.get().doubleValue(), EntityAttributeModifier.Operation.ADDITION);
-		Potions.STRONG_POISON.getEffects().forEach(i-> System.out.println(i.getDuration()));
 		if(Config.REWORKED_GOD_APPLE.get()){
 			((StatusEffectChanger) FoodComponents.ENCHANTED_GOLDEN_APPLE).setStatusEffects(getStatusEffects(new StatusEffectInstance[] {
 							new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,12000,0),

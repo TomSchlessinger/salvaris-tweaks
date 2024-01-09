@@ -352,7 +352,7 @@ public class GoofyExplosion extends Explosion {
                         z /= aa;
                         double ab = getExposure(vec3d, entity);
                         double ac = (1.0D - w) * ab;
-                        entity.damage(this.getDamageSource(), ((int)((ac * ac + ac) / 2.0 * 7.0 * (double)q + 1.0)*multiplier));
+                        entity.damage(this.getDamageSource(), (int)(((ac * ac + ac) / 2.0 * 7.0 * (double)q + 1.0)*multiplier));
                         double ad;
                         if (entity instanceof LivingEntity livingEntity) {
                             ad = ProtectionEnchantment.transformExplosionKnockback(livingEntity, ac);

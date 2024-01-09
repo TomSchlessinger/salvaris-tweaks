@@ -56,7 +56,7 @@ public abstract class RespawnAnchorMixin {
         }else{
             WorldUtils.createExplosion(world,null, world.getDamageSources().badRespawnPoint(vec3d), null,
                     vec3d, 5f * Config.ANCHOR_EXPLOSION_SIZE_MULTIPLIER.get().floatValue(), true,
-                    World.ExplosionSourceType.BLOCK, Config.ANCHOR_EXPLOSION_SIZE_MULTIPLIER.get().floatValue());
+                    World.ExplosionSourceType.BLOCK, Config.ANCHOR_EXPLOSION_DAMAGE_MULTIPLIER.get().floatValue());
         }
         ci.cancel();
         world.createExplosion(null, world.getDamageSources().badRespawnPoint(vec3d), explosionBehavior, vec3d, 0f, false, World.ExplosionSourceType.BLOCK);

@@ -65,5 +65,40 @@ public class ConfigBuilder {
         }));
 
     }
+    public void readValue(String id){
+        if(!file.exists())write();
+        try {
+            lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        for(ConfigItem i : items){
+            if(i.getId().equals(id)){
+                lines.forEach(j -> {
+                    if(j.contains(id + " = ")){
+                        i.parse(j.split(" = ")[1].split(" # ")[0]);
+                    }
+                });
+                break;
+            }
+        }
+
+    }
+    public void readValue(ConfigItem item){
+        if(!file.exists())write();
+        try {
+            lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        lines.forEach(j -> {
+            if(j.contains(item.getId() + " = ")){
+                item.parse(j.split(" = ")[1].split(" # ")[0]);
+            }
+        });
+
+    }
+
+    public List<ConfigItem> getItems(){return items;}
 
 }
